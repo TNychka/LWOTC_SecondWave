@@ -22,6 +22,12 @@
       <SubType>Content</SubType>
     </Content>
     <Content Include="ReadMe.txt" />
+    <Content Include="Src\LWOTC_SecondWave\Classes\UIShellDifficulty_LWOTC.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\LWOTC_SecondWave\Classes\X2DifficultyChangeListener_SecondWave.uc">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Src\LWOTC_SecondWave\Classes\X2DownloadableContentInfo_LWOTC_Second_Wave.uc">
       <SubType>Content</SubType>
     </Content>
