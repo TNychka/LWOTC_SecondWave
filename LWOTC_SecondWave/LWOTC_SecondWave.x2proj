@@ -18,11 +18,14 @@
     <Content Include="Config\XComGame.ini">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Localization\LWOTC_Second_Wave.int">
+    <Content Include="Localization\LWOTC_SecondWave.int">
       <SubType>Content</SubType>
     </Content>
     <Content Include="ReadMe.txt" />
     <Content Include="Src\LWOTC_SecondWave\Classes\X2DownloadableContentInfo_LWOTC_Second_Wave.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\LWOTC_SecondWave\Classes\XComGameState_AIReinforcementSpawner_LWOTC.uc">
       <SubType>Content</SubType>
     </Content>
   </ItemGroup>

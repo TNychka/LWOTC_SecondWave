@@ -1,3 +1,0 @@
-[X2DownloadableContentInfo_LWOTC_Second_Wave]
-SignalReserves_Description = "Not Created Equal: Randomize base stats for all soldiers, balanced around a point pool."
-SignalReserves_Tooltip = "At creation, each soldier's base stats are randomized. Stats start at a (lower) minimum value and a fixed point pool is randomly distributed to increase each stat (up to a fixed maximum). Robotic soldiers (bIsRobotic = true) are not affected."
