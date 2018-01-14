@@ -1,3 +1,6 @@
-[X2DownloadableContentInfo_LWOTC_Second_Wave]
+[X2DownloadableContentInfo_LWOTC_SecondWave]
 SignalReserves_Description = "Signaled Reserves: Reinforcements drop flares before landing."
 SignalReserves_Tooltip = "Reinforcements drop flares before landing."
+
+RedFog_Description = "Red Fog: Bad stuff happens when you get hurt."
+RedFog_Tooltip = "Bad stuff happens when you get hurt."

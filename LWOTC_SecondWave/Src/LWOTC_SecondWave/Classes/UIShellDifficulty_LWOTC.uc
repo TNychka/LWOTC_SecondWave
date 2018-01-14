@@ -1,7 +1,18 @@
+//---------------------------------------------------------------------------------------
+//  FILE:    XComGameState_AIReinforcementSpawner_LWOTC
+//  AUTHOR:  Daniel Mitchell / LWOTC
+//
+//  PURPOSE: Override to trigger events when difficulty is changed in the shell
+//--------------------------------------------------------------------------------------- 
+
 class UIShellDifficulty_LWOTC extends UIShellDifficulty;
 
 simulated function UpdateDifficulty(UICheckbox CheckboxControl)
 {
+	local array<X2DownloadableContentInfo> DLCInfos;
+	local X2DownloadableContentInfo DLCInfo;
+	local LWOTCDownloadableContentInfo LWOTCDLCInfo;
+
 	if( m_DifficultyRookieMechaItem.Checkbox.bChecked && m_DifficultyRookieMechaItem.Checkbox == CheckboxControl )
 	{
 		m_iSelectedDifficulty = 0;
@@ -33,9 +44,15 @@ simulated function UpdateDifficulty(UICheckbox CheckboxControl)
 		GrantTutorialReadAccess();
 	}
 
-	`REDSCREEN("EventTriggeredMOther");
-	`XEVENTMGR.TriggerEvent('OnShellDifficultyChange', self, self);
-	//class'X2DownloadableContentInfo_LWOTC_Second_Wave'.static.SetTogglesOnShellDifficultyPage(self);
+	DLCInfos = `ONLINEEVENTMGR.GetDLCInfos(false);
+	foreach DLCInfos(DLCInfo)
+	{
+		LWOTCDLCInfo = LWOTCDownloadableContentInfo(DLCInfo);
+		if (LWOTCDLCInfo != none)
+		{
+			LWOTCDLCInfo.UpdateUIOnDifficultyChange(self);
+		}
+	}
 
 	RefreshDescInfo();
 }

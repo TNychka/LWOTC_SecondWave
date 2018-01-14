@@ -1,4 +1,9 @@
-
+//---------------------------------------------------------------------------------------
+//  FILE:    XComGameState_AIReinforcementSpawner_LWOTC
+//  AUTHOR:  Daniel Mitchell / LWOTC
+//
+//  PURPOSE: Override to hide the landing flares of reinforements if Signal Flares is not enabled
+//--------------------------------------------------------------------------------------- 
 class XComGameState_AIReinforcementSpawner_LWOTC extends XComGameState_AIReinforcementSpawner;
 
 function EventListenerReturn OnReinforcementSpawnerCreated(Object EventData, Object EventSource, XComGameState GameState, Name Event, Object CallbackData)
@@ -87,7 +92,7 @@ function EventListenerReturn OnReinforcementSpawnerCreated(Object EventData, Obj
 	   NewSpawnerState.SpawnVisualizationType != 'TheLostSwarm' && 
 	   NewSpawnerState.SpawnVisualizationType != 'ChosenSpecialNoReveal' &&
 	   NewSpawnerState.SpawnVisualizationType != 'ChosenSpecialTopDownReveal'  &&
-	   `SecondWaveEnabled('SignalReserves'))
+	   `SecondWaveEnabled('SignalReserves')) // Show if SignalReserves is enabled
 	{
 		XComGameStateContext_ChangeContainer(NewGameState.GetContext()).BuildVisualizationFn = NewSpawnerState.BuildVisualizationForSpawnerCreation;
 		NewGameState.GetContext().SetAssociatedPlayTiming(SPT_AfterSequential);

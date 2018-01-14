@@ -7,6 +7,7 @@
     <SteamPublishID>0</SteamPublishID>
     <AssemblyName>LWOTC_SecondWave</AssemblyName>
     <RootNamespace>LWOTC_SecondWave</RootNamespace>
+    <ProjectGuid>{fd289d02-318c-4a80-a17a-1a3906e6b8b1}</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Config\XComEditor.ini">
@@ -18,20 +19,92 @@
     <Content Include="Config\XComGame.ini">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="Config\XComLWOTC_RedFog_Defaults.ini">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Config\XComLWOTC_SecondWave_RedFog.ini">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Localization\LWOTC_SecondWave.int">
       <SubType>Content</SubType>
     </Content>
     <Content Include="ReadMe.txt" />
+    <Content Include="Src\LWOTC_SecondWave\Classes\LWOTCDownloadableContentInfo.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\LWOTC_SecondWave\Classes\LWOTC_Handler_RedFog.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\LWOTC_SecondWave\Classes\LWOTC_Handler_SignalReserves.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\LWOTC_SecondWave\Classes\RedFogOptionsListener.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\LWOTC_SecondWave\Classes\RedFogOptions_Defaults.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\LWOTC_SecondWave\Classes\UIScreenListener_GameLoad.uc">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Src\LWOTC_SecondWave\Classes\UIShellDifficulty_LWOTC.uc">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Src\LWOTC_SecondWave\Classes\X2DifficultyChangeListener_SecondWave.uc">
+    <Content Include="Src\LWOTC_SecondWave\Classes\X2Ability_RedFog.uc">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Src\LWOTC_SecondWave\Classes\X2DownloadableContentInfo_LWOTC_Second_Wave.uc">
+    <Content Include="Src\LWOTC_SecondWave\Classes\X2DownloadableContentInfo_LWOTC_SecondWave.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\LWOTC_SecondWave\Classes\X2Effect_RedFog.uc">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Src\LWOTC_SecondWave\Classes\XComGameState_AIReinforcementSpawner_LWOTC.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\LWOTC_SecondWave\Classes\XComGameState_Effect_RedFog.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\LWOTC_SecondWave\Classes\XComGameState_Manager_RedFog.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\ModConfigMenuAPI\Classes\MCM_API.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\ModConfigMenuAPI\Classes\MCM_API_Button.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\ModConfigMenuAPI\Classes\MCM_API_Checkbox.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\ModConfigMenuAPI\Classes\MCM_API_Dropdown.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\ModConfigMenuAPI\Classes\MCM_API_Instance.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\ModConfigMenuAPI\Classes\MCM_API_Label.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\ModConfigMenuAPI\Classes\MCM_API_Setting.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\ModConfigMenuAPI\Classes\MCM_API_SettingsGroup.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\ModConfigMenuAPI\Classes\MCM_API_SettingsPage.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\ModConfigMenuAPI\Classes\MCM_API_Slider.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\ModConfigMenuAPI\Classes\MCM_API_Spinner.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\ModConfigMenuAPI\MCM_API_CfgHelpers.uci">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\ModConfigMenuAPI\MCM_API_Includes.uci">
       <SubType>Content</SubType>
     </Content>
   </ItemGroup>
@@ -41,6 +114,8 @@
     <Folder Include="Src" />
     <Folder Include="Src\LWOTC_SecondWave" />
     <Folder Include="Src\LWOTC_SecondWave\Classes" />
+    <Folder Include="Src\ModConfigMenuAPI" />
+    <Folder Include="Src\ModConfigMenuAPI\Classes" />
   </ItemGroup>
   <Import Project="$(MSBuildLocalExtensionPath)\XCOM2.targets" />
 </Project>
