@@ -7,6 +7,11 @@
 
 class X2DownloadableContentInfo_LWOTC extends X2DownloadableContentInfo;
 
+static function UpdateUIOnDifficultyMenuOpen(UIShellDifficulty UIShellDifficulty)
+{
+
+}
+
 static function UpdateUIOnDifficultyChange(UIShellDifficulty UIShellDifficulty)
 {
 

@@ -22,6 +22,7 @@ var localized string WeaponR_Tooltip;
 
 var localized string NCE_Description;
 var localized string NCE_Tooltip;
+var config int NCE_ListPosition;
 
 struct DefaultBaseDamageEntry
 {
@@ -208,11 +209,17 @@ static function AddNotCreatedEqual()
 	local SecondWaveOption NCE_Option;
 	NCE_Option.ID = 'NotCreatedEqual';
 	NCE_Option.DifficultyValue = 0;
-	AddSecondWaveOption(NCE_Option, default.NCE_Description, default.NCE_Tooltip);
+	default.NCE_ListPosition = AddSecondWaveOption(NCE_Option, default.NCE_Description, default.NCE_Tooltip);
+}
+
+static function UpdateUIOnDifficultyMenuOpen(UIShellDifficulty UIShellDifficulty)
+{
+	UIMechaListItem(UIShellDifficulty.m_SecondWaveList.GetItem(default.NCE_ListPosition)).Checkbox.SetChecked(true);
 }
 
 static function UpdateUIOnDifficultyChange(UIShellDifficulty UIShellDifficulty)
 {
+	UIMechaListItem(UIShellDifficulty.m_SecondWaveList.GetItem(default.NCE_ListPosition)).Checkbox.SetChecked(true);
 	if (UIShellDifficulty.m_iSelectedDifficulty > 0)
 	{
 		UIMechaListItem(UIShellDifficulty.m_SecondWaveList.GetItem(default.SignalReserves_ListPosition)).Checkbox.SetChecked(false);
