@@ -25,12 +25,19 @@ var localized string HiddenP_Tooltip;
 static event OnLoadedSavedGame()
 {
 	local RedFog_XComGameState_Manager RedFogManager;
+	local HiddenP_XComGameState_Manager HiddenPManager;
 
 	if(`SecondWaveEnabled('RedFog'))
 	{
 		`REDSCREEN("Red Fog Applied to game");
 		RedFogManager = RedFog_XComGameState_Manager(class'RedFog_XComGameState_Manager'.static.CreateModSettingsState_ExistingCampaign(class'RedFog_XComGameState_Manager'));
 		RedFogManager.RegisterManager();
+	}
+	if(`SecondWaveEnabled('HiddenPotential'))
+	{
+		`REDSCREEN("Hidden Potential Applied to game");
+		HiddenPManager = HiddenP_XComGameState_Manager(class'HiddenP_XComGameState_Manager'.static.CreateModSettingsState_ExistingCampaign(class'HiddenP_XComGameState_Manager'));
+		HiddenPManager.RegisterManager();
 	}
 }
 
@@ -42,12 +49,19 @@ static event OnLoadedSavedGame()
 static event InstallNewCampaign(XComGameState StartState)
 {
 	local RedFog_XComGameState_Manager RedFogManager;
+	local HiddenP_XComGameState_Manager HiddenPManager;
 
 	if(`SecondWaveEnabled('RedFog'))
 	{
 		`REDSCREEN("Red Fog Applied to game");
 		RedFogManager = RedFog_XComGameState_Manager(class'RedFog_XComGameState_Manager'.static.CreateModSettingsState_NewCampaign(class'RedFog_XComGameState_Manager', StartState));
 		RedFogManager.RegisterManager();
+	}
+	if(`SecondWaveEnabled('HiddenPotential'))
+	{
+		`REDSCREEN("Hidden Potential Applied to game");
+		HiddenPManager = HiddenP_XComGameState_Manager(class'HiddenP_XComGameState_Manager'.static.CreateModSettingsState_NewCampaign(class'HiddenP_XComGameState_Manager', StartState));
+		HiddenPManager.RegisterManager();
 	}
 }
 
