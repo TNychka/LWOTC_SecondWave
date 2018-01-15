@@ -13,3 +13,27 @@ WeaponR_Tooltip = "WeaponRoulette"
 
 NCE_Description = "Not Created Equal"
 NCE_Tooltip = "Not Created Equal"
+
+[ModMenu_Options_Listener]
+Settings_Category = "LWOTC Settings"
+Page_Title = "Long War of the Chosen Settings"
+
+RedFog_Title = "Red Fog Settings"
+RedFog_EnabledAliens_Setting = "Red Fog enabled for Advent"
+RedFog_EnabledAliens_Tooltip = "Red Fog enabled for Advent"
+RedFog_EnabledXcom_Setting = "Red Fog enabled for XCOM"
+RedFog_EnabledXcom_Tooltip = "Red Fog enabled for XCOM"
+RedFog_IsLinear_Setting = "Red Fog is linearly applied"
+RedFog_IsLinear_Tooltip = "Alternative being Quadratic"
+RedFog_PenaltyType_Setting = "Red Fog Penalty Type"
+RedFog_PenaltyType_Tooltip = "Red Fog Penalty Type"
+RedFog_HealingType_Setting = "Red Fog Healing Type"
+RedFog_HealingType_Tooltip = "Red Fog Healing Type"
+
+HiddenP_Title = "Hidden Potential Settings"
+HiddenP_PercentGuaranteedStat_Setting = "Random Levelup Strength"
+HiddenP_PercentGuaranteedStat_Tooltip = "Random Levelup Strength"
+
+WeaponR_Title = "Weapon Roulette Settings"
+WeaponR_DamageRange_Setting = "Damage Range"
+WeaponR_DamageRange_Tooltip = "Damage Range"

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Guid>b4210f02-4322-47ce-8305-b0d7037c0066</Guid>
     <Name>LWOTC_SecondWave</Name>
-    <Description>Description of My XCOM 2 Mod.</Description>
+    <Description>Second Waves</Description>
     <SteamPublishID>0</SteamPublishID>
     <AssemblyName>LWOTC_SecondWave</AssemblyName>
     <RootNamespace>LWOTC_SecondWave</RootNamespace>
@@ -32,6 +32,9 @@
       <SubType>Content</SubType>
     </Content>
     <Content Include="Localization\LWOTC_SecondWave.int">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModPreview.jpg">
       <SubType>Content</SubType>
     </Content>
     <Content Include="ReadMe.txt" />
