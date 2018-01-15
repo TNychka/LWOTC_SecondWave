@@ -25,6 +25,9 @@
     <Content Include="Config\XComLWOTC_SecondWave_HiddenPotential.ini">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="Config\XComLWOTC_SecondWave_NCE.ini">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Config\XComLWOTC_SecondWave_RedFog.ini">
       <SubType>Content</SubType>
     </Content>
@@ -33,6 +36,12 @@
     </Content>
     <Content Include="ReadMe.txt" />
     <Content Include="Src\LWOTC_SecondWave\Classes\HiddenP_XComGameState_Manager.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\LWOTC_SecondWave\Classes\NCE_UIScreenListener_Cleanup.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\LWOTC_SecondWave\Classes\NCE_XComGameState_Manager.uc">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Src\LWOTC_SecondWave\Classes\Override_UIShellDifficulty.uc">
@@ -77,7 +86,13 @@
     <Content Include="Src\LWOTC_SecondWave\Classes\RedFog_XComGameState_Manager.uc">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="Src\LWOTC_SecondWave\Classes\NCE_X2StrategyElement_RandomizedSoldierRewards.uc">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Src\LWOTC_SecondWave\Classes\XComGameState_Manager_LWOTC.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\LWOTC_SecondWave\Classes\NCE_XComGameState_RandomizedUnit.uc">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Src\ModConfigMenuAPI\Classes\MCM_API.uc">

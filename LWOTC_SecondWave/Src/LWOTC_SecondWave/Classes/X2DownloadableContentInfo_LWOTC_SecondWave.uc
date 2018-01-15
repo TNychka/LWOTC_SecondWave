@@ -20,6 +20,9 @@ var localized string HiddenP_Tooltip;
 var localized string WeaponR_Description;
 var localized string WeaponR_Tooltip;
 
+var localized string NCE_Description;
+var localized string NCE_Tooltip;
+
 struct DefaultBaseDamageEntry
 {
 	var name WeaponTemplateName;
@@ -56,6 +59,7 @@ static event OnLoadedSavedGame()
 	local RedFog_XComGameState_Manager RedFogManager;
 	local HiddenP_XComGameState_Manager HiddenPManager;
 	local WeaponR_XComGameState_Manager WeaponRManager;
+	local NCE_XComGameState_Manager NCEManager;
 
 	if(`SecondWaveEnabled('RedFog'))
 	{
@@ -69,9 +73,18 @@ static event OnLoadedSavedGame()
 		HiddenPManager = HiddenP_XComGameState_Manager(class'HiddenP_XComGameState_Manager'.static.CreateModSettingsState_ExistingCampaign(class'HiddenP_XComGameState_Manager'));
 		HiddenPManager.RegisterManager();
 	}
+	if(`SecondWaveEnabled('NotCreatedEqual'))
+	{
+		`REDSCREEN("NCE Applied to game");
+		NCEManager = NCE_XComGameState_Manager(class'NCE_XComGameState_Manager'.static.CreateModSettingsState_ExistingCampaign(class'NCE_XComGameState_Manager'));
+		NCEManager.RegisterManager();
+		NCEManager.UpdateSoldiers_GameStart();
+	}
 
 	WeaponRManager = WeaponR_XComGameState_Manager(class'WeaponR_XComGameState_Manager'.static.CreateModSettingsState_ExistingCampaign(class'WeaponR_XComGameState_Manager'));
 	WeaponRManager.UpdateWeaponTemplates_RandomizedDamage();
+
+	UpdateRewardSoldierTemplates();
 }
 
 /// <summary>
@@ -84,6 +97,7 @@ static event InstallNewCampaign(XComGameState StartState)
 	local RedFog_XComGameState_Manager RedFogManager;
 	local HiddenP_XComGameState_Manager HiddenPManager;
 	local WeaponR_XComGameState_Manager WeaponRManager;
+	local NCE_XComGameState_Manager NCEManager;
 
 	if(`SecondWaveEnabled('RedFog'))
 	{
@@ -97,9 +111,18 @@ static event InstallNewCampaign(XComGameState StartState)
 		HiddenPManager = HiddenP_XComGameState_Manager(class'HiddenP_XComGameState_Manager'.static.CreateModSettingsState_NewCampaign(class'HiddenP_XComGameState_Manager', StartState));
 		HiddenPManager.RegisterManager();
 	}
+	if(`SecondWaveEnabled('NotCreatedEqual'))
+	{
+		`REDSCREEN("NCE Applied to game");
+		NCEManager = NCE_XComGameState_Manager(class'NCE_XComGameState_Manager'.static.CreateModSettingsState_NewCampaign(class'NCE_XComGameState_Manager', StartState));
+		NCEManager.RegisterManager();
+		NCEManager.UpdateSoldiers_GameStart(StartState);
+	}
 
 	WeaponRManager = WeaponR_XComGameState_Manager(class'WeaponR_XComGameState_Manager'.static.CreateModSettingsState_NewCampaign(class'WeaponR_XComGameState_Manager', StartState));
 	WeaponRManager.UpdateWeaponTemplates_RandomizedDamage();
+
+	UpdateRewardSoldierTemplates();
 }
 
 /// <summary>
@@ -117,6 +140,8 @@ static event OnLoadedSavedGameToStrategy()
 	}
 
 	class'WeaponR_XComGameState_Manager'.static.GetWeaponRouletteManager().UpdateWeaponTemplates_RandomizedDamage();
+
+	UpdateRewardSoldierTemplates();
 }
 
 /// <summary>
@@ -143,6 +168,7 @@ static event OnPostTemplatesCreated()
 	AddSignalReserves();
 	AddHiddenPotential();
 	AddWeaponRoulette();
+	AddNotCreatedEqual();
 }
 
 static function AddRedFog()
@@ -177,6 +203,14 @@ static function AddWeaponRoulette()
 	AddSecondWaveOption(WeaponR_Option, default.WeaponR_Description, default.WeaponR_Tooltip);
 }
 
+static function AddNotCreatedEqual()
+{
+	local SecondWaveOption NCE_Option;
+	NCE_Option.ID = 'NotCreatedEqual';
+	NCE_Option.DifficultyValue = 0;
+	AddSecondWaveOption(NCE_Option, default.NCE_Description, default.NCE_Tooltip);
+}
+
 static function UpdateUIOnDifficultyChange(UIShellDifficulty UIShellDifficulty)
 {
 	if (UIShellDifficulty.m_iSelectedDifficulty > 0)
@@ -187,4 +221,24 @@ static function UpdateUIOnDifficultyChange(UIShellDifficulty UIShellDifficulty)
 	{
 		UIMechaListItem(UIShellDifficulty.m_SecondWaveList.GetItem(default.SignalReserves_ListPosition)).Checkbox.SetChecked(true);
 	}
+}
+
+static function UpdateRewardSoldierTemplates()
+{
+	local X2StrategyElementTemplateManager TemplateMgr;
+	local X2RewardTemplate Template;
+
+	TemplateMgr = class'X2StrategyElementTemplateManager'.static.GetStrategyElementTemplateManager();
+
+	Template = X2RewardTemplate(TemplateMgr.FindStrategyElementTemplate('Reward_Soldier'));  
+	Template.GenerateRewardFn = class'NCE_X2StrategyElement_RandomizedSoldierRewards'.static.GeneratePersonnelReward;
+	TemplateMgr.AddStrategyElementTemplate(Template, true);
+
+	Template = X2RewardTemplate(TemplateMgr.FindStrategyElementTemplate('Reward_Rookie')); 
+	Template.GenerateRewardFn = class'NCE_X2StrategyElement_RandomizedSoldierRewards'.static.GeneratePersonnelReward;
+	TemplateMgr.AddStrategyElementTemplate(Template, true);
+
+	Template = X2RewardTemplate(TemplateMgr.FindStrategyElementTemplate('Reward_SoldierCaptured'));
+	Template.GenerateRewardFn = class'NCE_X2StrategyElement_RandomizedSoldierRewards'.static.GenerateCapturedSoldierReward;
+	TemplateMgr.AddStrategyElementTemplate(Template, true);
 }
