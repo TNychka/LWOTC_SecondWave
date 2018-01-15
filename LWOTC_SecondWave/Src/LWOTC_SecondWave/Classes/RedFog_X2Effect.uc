@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------------------
-//  FILE:    X2Effect_RedFog.uc
+//  FILE:    RedFog_X2Effect.uc
 //  AUTHOR:  Amineri / Long War Studios
 //	PURPOSE: Implements Red Fog, which decreases stats based on damage taken 
 //---------------------------------------------------------------------------------------
-class X2Effect_RedFog extends X2Effect_ModifyStats config(LWOTC_SecondWave_RedFog);
+class RedFog_X2Effect extends X2Effect_ModifyStats config(LWOTC_SecondWave_RedFog);
 
 struct RedFogPenalty
 {
@@ -29,22 +29,23 @@ defaultproperties
 }
 
 //add a component to XComGameState_Effect to track cumulative number of attacks
-simulated protected function OnEffectAdded(const out EffectAppliedData ApplyEffectParameters, XComGameState_BaseObject kNewTargetState, XComGameState NewGameState, XComGameState_Effect NewEffectState)
+simulated protected function OnEffectAdded(const out EffectAppliedData ApplyEffectParameters, XComGameState_BaseObject kNewTargetState, 
+	XComGameState NewGameState, XComGameState_Effect NewEffectState)
 {
-	local XComGameState_Effect_RedFog RFEffectState;
+	local RedFog_XComGameState_Effect RFEffectState;
 	local XComGameState_Unit TargetUnit;
-	local XComGameState_Manager_RedFog RedFogManager;
+	local RedFog_XComGameState_Manager RedFogManager;
 
-	RedFogManager = class'XComGameState_Manager_RedFog'.static.GetRedFogManager();
+	RedFogManager = class'RedFog_XComGameState_Manager'.static.GetRedFogManager();
 	TargetUnit = XComGameState_Unit(kNewTargetState);
 	if(TargetUnit == none)
-		`REDSCREEN("X2Effect_RedFog : No target unit");
+		`REDSCREEN("RedFog_X2Effect : No target unit");
 
 	RFEffectState = GetRedFogComponent(NewEffectState);
 	if (RFEffectState == none)
 	{
 		//create component and attach it to GameState_Effect, adding the new state object to the NewGameState container
-		RFEffectState = XComGameState_Effect_RedFog(NewGameState.CreateStateObject(class'XComGameState_Effect_RedFog'));
+		RFEffectState = RedFog_XComGameState_Effect(NewGameState.CreateStateObject(class'RedFog_XComGameState_Effect'));
 		RFEffectState.InitComponent();
 		if(TargetUnit != none)
 		{
@@ -72,13 +73,13 @@ simulated protected function OnEffectAdded(const out EffectAppliedData ApplyEffe
 
 function bool IsEffectCurrentlyRelevant(XComGameState_Effect EffectGameState, XComGameState_Unit TargetUnit)
 {
-	local XComGameState_Effect_RedFog RFEffectState;
+	local RedFog_XComGameState_Effect RFEffectState;
 	local bool Relevant;
 
 
 	RFEffectState = GetRedFogComponent(EffectGameState);
 	Relevant = (RFEffectState.ComputePctHPLost(TargetUnit) > 0.0f) && RFEffectState.bIsActive;
-	// `TBTRACE("X2Effect_RedFog: Unit=" $ TargetUnit.GetFullName() $ ", Relevant=" $ Relevant $ ", PctLost=" $ RFEffectState.ComputePctHPLost(TargetUnit),, 'LW_Toolbox');
+	// `TBTRACE("RedFog_X2Effect: Unit=" $ TargetUnit.GetFullName() $ ", Relevant=" $ Relevant $ ", PctLost=" $ RFEffectState.ComputePctHPLost(TargetUnit),, 'LW_Toolbox');
 	return Relevant;
 	//  Only relevant if we successfully rolled any stat changes
 	//return EffectGameState.StatChanges.Length > 0;
@@ -101,10 +102,10 @@ simulated function OnEffectRemoved(const out EffectAppliedData ApplyEffectParame
 	NewGameState.RemoveStateObject(EffectComponent.ObjectID);
 }
 
-static function XComGameState_Effect_RedFog GetRedFogComponent(XComGameState_Effect Effect)
+static function RedFog_XComGameState_Effect GetRedFogComponent(XComGameState_Effect Effect)
 {
 	if (Effect != none) 
-		return XComGameState_Effect_RedFog(Effect.FindComponentObject(class'XComGameState_Effect_RedFog'));
+		return RedFog_XComGameState_Effect(Effect.FindComponentObject(class'RedFog_XComGameState_Effect'));
 	return none;
 }
 

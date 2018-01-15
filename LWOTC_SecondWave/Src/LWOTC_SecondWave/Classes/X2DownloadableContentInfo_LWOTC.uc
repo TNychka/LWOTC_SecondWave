@@ -5,7 +5,7 @@
 //  PURPOSE: Override to have a new trigger
 //--------------------------------------------------------------------------------------- 
 
-class LWOTCDownloadableContentInfo extends X2DownloadableContentInfo;
+class X2DownloadableContentInfo_LWOTC extends X2DownloadableContentInfo;
 
 static function UpdateUIOnDifficultyChange(UIShellDifficulty UIShellDifficulty)
 {

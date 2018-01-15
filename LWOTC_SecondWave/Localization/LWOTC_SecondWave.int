@@ -4,3 +4,6 @@ SignalReserves_Tooltip = "Reinforcements drop flares before landing."
 
 RedFog_Description = "Red Fog: Bad stuff happens when you get hurt."
 RedFog_Tooltip = "Bad stuff happens when you get hurt."
+
+HiddenP_Description = "Hidden Potential"
+HiddenP_Tooltip = "Hidden Potential"

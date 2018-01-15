@@ -1,16 +1,16 @@
 //---------------------------------------------------------------------------------------
-//  FILE:    XComGameState_Effect_RedFog.uc
+//  FILE:    RedFog_XComGameState_Effect.uc
 //  AUTHOR:  Amineri (Long War Studios)
 //  PURPOSE: This is a component extension for Effect GameStates, containing 
 //				additional data used for RedFog.
 //---------------------------------------------------------------------------------------
-class XComGameState_Effect_RedFog extends XComGameState_BaseObject
+class RedFog_XComGameState_Effect extends XComGameState_BaseObject
 	config(LWOTC_SecondWave_RedFog)
-	dependson(X2Effect_RedFog);
+	dependson(RedFog_X2Effect);
 
 var bool bIsActive;
 
-function XComGameState_Effect_RedFog InitComponent()
+function RedFog_XComGameState_Effect InitComponent()
 {
 	return self;
 }
@@ -52,7 +52,7 @@ function RegisterEvent(optional XComGameState_Unit TargetUnit)
 	ListenerObj = self;
 	if (ListenerObj == none)
 	{
-		`Redscreen("RedFog_LW: Failed to find RedFog Component when registering listener");
+		`Redscreen("RedFog: Failed to find RedFog Component when registering listener");
 		return;
 	}
 
@@ -63,11 +63,11 @@ function RegisterEvent(optional XComGameState_Unit TargetUnit)
 function EventListenerReturn UpdateActivation(Object EventData, Object EventSource, XComGameState GameState, Name EventID, Object CallbackData)
 {
 	local XComGameState_Unit UnitState, UpdatedUnitState;
-	local XComGameState_Effect_RedFog UpdatedEffectState;
+	local RedFog_XComGameState_Effect UpdatedEffectState;
 	local XComGameState NewGameState;
-	local XComGameState_Manager_RedFog RedFogManager;
+	local RedFog_XComGameState_Manager RedFogManager;
 
-	RedFogManager = class'XComGameState_Manager_RedFog'.static.GetRedFogManager();
+	RedFogManager = class'RedFog_XComGameState_Manager'.static.GetRedFogManager();
 
 	//`TBTRACE("Red Fog UpdateActivation Listener: Started",, 'LW_Toolbox');
 
@@ -82,7 +82,7 @@ function EventListenerReturn UpdateActivation(Object EventData, Object EventSour
 
 	//`TBTRACE("ActivateForXCom Listener: Testing Activation");
 	NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Update RedFog Activation");
-	UpdatedEffectState = XComGameState_Effect_RedFog(NewGameState.CreateStateObject(Class, ObjectID));
+	UpdatedEffectState = RedFog_XComGameState_Effect(NewGameState.CreateStateObject(Class, ObjectID));
 	NewGameState.AddStateObject(UpdatedEffectState);
 	UpdatedUnitState = XComGameState_Unit(NewGameState.CreateStateObject(UnitState.Class, UnitState.ObjectID));
 	NewGameState.AddStateObject(UpdatedUnitState);
@@ -118,7 +118,7 @@ function XComGameState_Unit GetTargetUnit(optional XComGameState NewGameState)
 		TargetUnit = XComGameState_Unit(`XCOMHISTORY.GetGameStateForObjectID(OwningEffect.ApplyEffectParameters.TargetStateObjectRef.ObjectID));
 
 	if (TargetUnit == none)
-		`REDSCREEN("LW_TOOLBOX : X2Effect_RedFog has no valid owning effect state");
+		`REDSCREEN("LW_TOOLBOX : RedFog_X2Effect has no valid owning effect state");
 
 	return TargetUnit;
 }
@@ -150,9 +150,9 @@ simulated function UpdateRedFogPenalties(XComGameState_Unit UnitState, XComGameS
 	local XComGameState_Effect OwningEffect;
 	local array<RedFogPenalty> RFPenalties;
 	local array<StatChange>	aStatChanges;
-	local XComGameState_Manager_RedFog RedFogManager;
+	local RedFog_XComGameState_Manager RedFogManager;
 
-	RedFogManager = class'XComGameState_Manager_RedFog'.static.GetRedFogManager();
+	RedFogManager = class'RedFog_XComGameState_Manager'.static.GetRedFogManager();
 	
 	OwningEffect = GetOwningEffect(GameState);
 	OwningEffect = XComGameState_Effect(GameState.CreateStateObject(OwningEffect.Class, OwningEffect.ObjectID));
@@ -170,9 +170,9 @@ simulated function UpdateRedFogPenalties(XComGameState_Unit UnitState, XComGameS
 
 		//retrieve array for linear/active penalties
 		if(RedFogManager.IsLinear)
-			RFPenalties = class'X2Effect_RedFog'.default.LinearRedFogPenalties;
+			RFPenalties = class'RedFog_X2Effect'.default.LinearRedFogPenalties;
 		else
-			RFPenalties = class'X2Effect_RedFog'.default.QuadraticRedFogPenalties;
+			RFPenalties = class'RedFog_X2Effect'.default.QuadraticRedFogPenalties;
 
 		//`TBDEBUG("UpdateRedFogPenalties : PctHPLost=" $ PctHPLost $ ", NumPenaltyStats=" $ RFPenalties.Length,, 'LW_Toolbox');
 		//apply penalties
@@ -218,11 +218,11 @@ simulated function float ComputeStatLoss(float PctHPLost, RedFogPenalty Penalty,
 simulated function float ComputePctHPLost(XComGameState_Unit UnitState)
 {
 	local float CalcHP, MaxHP, ReturnPct;
-	local XComGameState_Manager_RedFog RedFogManager;
+	local RedFog_XComGameState_Manager RedFogManager;
 
-	RedFogManager = class'XComGameState_Manager_RedFog'.static.GetRedFogManager();
+	RedFogManager = class'RedFog_XComGameState_Manager'.static.GetRedFogManager();
 
-	if(class'X2Effect_RedFog'.default.TypesImmuneToRedFog.Find(UnitState.GetMyTemplateName()) != -1)
+	if(class'RedFog_X2Effect'.default.TypesImmuneToRedFog.Find(UnitState.GetMyTemplateName()) != -1)
 		return 0.0f;
 
 	switch(RedFogManager.HealingType)
@@ -236,7 +236,7 @@ simulated function float ComputePctHPLost(XComGameState_Unit UnitState)
 	MaxHP = UnitState.HighestHP;
 	ReturnPct = 0.0;
 
-	if(class'X2Effect_RedFog'.default.TypesHalfImmuneToRedFog.Find(UnitState.GetMyTemplateName()) != -1)
+	if(class'RedFog_X2Effect'.default.TypesHalfImmuneToRedFog.Find(UnitState.GetMyTemplateName()) != -1)
 		ReturnPct = 0.5 * (1.0 - (CalcHP/MaxHP));
 	else
 		ReturnPct = 1.0 - (CalcHP/MaxHP);

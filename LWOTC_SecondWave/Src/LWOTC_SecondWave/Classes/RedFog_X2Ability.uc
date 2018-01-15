@@ -1,9 +1,9 @@
 //---------------------------------------------------------------------------------------
-//  FILE:    X2Ability_RedFog_LW.uc
+//  FILE:    RedFog_X2Ability.uc
 //  AUTHOR:  Amineri / Long War Studios
 //  PURPOSE: Provides ability definition for Long War version of Red Fog
 //---------------------------------------------------------------------------------------
-class X2Ability_RedFog extends X2Ability config(LWOTC_SecondWave_RedFog);
+class RedFog_X2Ability extends X2Ability config(LWOTC_SecondWave_RedFog);
 
 var config string RedFogIconImagePath;
 
@@ -18,27 +18,24 @@ static function X2AbilityTemplate CreateRedFogAbility()
 {
 	local X2AbilityTemplate Template;
 	local X2AbilityTrigger_UnitPostBeginPlay PostBeginPlayTrigger;
-	local X2Effect_RedFog RedFogEffect;
+	local RedFog_X2Effect RedFogEffect;
 
 	`CREATE_X2ABILITY_TEMPLATE(Template, 'RedFog');
 	Template.IconImage = "img:///UILibrary_PerkIcons.UIPerk_criticallywounded";  // TODO: Add update with new icon
 	Template.AbilitySourceName = 'eAbilitySource_Standard';
 	Template.AbilityToHitCalc = default.DeadEye;
 	Template.AbilityTargetStyle = default.SelfTarget;
-	Template.eAbilityIconBehaviorHUD = EAbilityIconBehavior_NeverShow;
 
 	PostBeginPlayTrigger = new class'X2AbilityTrigger_UnitPostBeginPlay';
 	PostBeginPlayTrigger.Priority -= 100;        // Lower priority to guarantee other stat-effecting abilities run first
 	Template.AbilityTriggers.AddItem(PostBeginPlayTrigger);
 
-	//Template.AbilityTriggers.AddItem(new class'X2AbilityTrigger_PlayerInput');
-
 	Template.AbilitySourceName = 'eAbilitySource_Standard';
-	Template.eAbilityIconBehaviorHUD = EAbilityIconBehavior_NeverShow;
-	//Template.eAbilityIconBehaviorHUD = EAbilityIconBehavior_AlwaysShow;
+	//Template.eAbilityIconBehaviorHUD = EAbilityIconBehavior_NeverShow;
+	Template.eAbilityIconBehaviorHUD = EAbilityIconBehavior_AlwaysShow;
 	Template.Hostility = eHostility_Neutral;
 	
-	RedFogEffect = new class'X2Effect_RedFog';
+	RedFogEffect = new class'RedFog_X2Effect';
 	RedFogEffect.BuildPersistentEffect(1, true, true, true, eGameRule_PlayerTurnBegin); 
 	//RedFogEffect.SetDisplayInfo	(ePerkBuff_Penalty, Template.LocFriendlyName, Template.GetMyLongDescription(), Template.IconImage,, "img:///UILibrary_LWToolbox.Status_RedFog", Template.AbilitySourceName);
 	RedFogEffect.SetDisplayInfo	(ePerkBuff_Penalty, Template.LocFriendlyName, Template.GetMyLongDescription(), Template.IconImage,, "", Template.AbilitySourceName);

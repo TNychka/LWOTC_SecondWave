@@ -5,13 +5,13 @@
 //  PURPOSE: Override to trigger events when difficulty is changed in the shell
 //--------------------------------------------------------------------------------------- 
 
-class UIShellDifficulty_LWOTC extends UIShellDifficulty;
+class Override_UIShellDifficulty extends UIShellDifficulty;
 
 simulated function UpdateDifficulty(UICheckbox CheckboxControl)
 {
 	local array<X2DownloadableContentInfo> DLCInfos;
 	local X2DownloadableContentInfo DLCInfo;
-	local LWOTCDownloadableContentInfo LWOTCDLCInfo;
+	local X2DownloadableContentInfo_LWOTC LWOTCDLCInfo;
 
 	if( m_DifficultyRookieMechaItem.Checkbox.bChecked && m_DifficultyRookieMechaItem.Checkbox == CheckboxControl )
 	{
@@ -47,7 +47,7 @@ simulated function UpdateDifficulty(UICheckbox CheckboxControl)
 	DLCInfos = `ONLINEEVENTMGR.GetDLCInfos(false);
 	foreach DLCInfos(DLCInfo)
 	{
-		LWOTCDLCInfo = LWOTCDownloadableContentInfo(DLCInfo);
+		LWOTCDLCInfo = X2DownloadableContentInfo_LWOTC(DLCInfo);
 		if (LWOTCDLCInfo != none)
 		{
 			LWOTCDLCInfo.UpdateUIOnDifficultyChange(self);

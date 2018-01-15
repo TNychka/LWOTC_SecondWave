@@ -10,9 +10,9 @@ class UIScreenListener_GameLoad extends UIScreenListener;
 // This event is triggered after a screen is initialized
 event OnInit(UIScreen Screen)
 {
-	local XComGameState_Manager_RedFog RedFogManager;
+	local RedFog_XComGameState_Manager RedFogManager;
 
-	RedFogManager = class'XComGameState_Manager_RedFog'.static.GetRedFogManager();
+	RedFogManager = class'RedFog_XComGameState_Manager'.static.GetRedFogManager();
 
 	//re-register the hit point observer if necessary
 	if(`SecondWaveEnabled('RedFog'))

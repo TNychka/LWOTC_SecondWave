@@ -4,7 +4,7 @@
 //
 //  PURPOSE: Override to hide the landing flares of reinforements if Signal Flares is not enabled
 //--------------------------------------------------------------------------------------- 
-class XComGameState_AIReinforcementSpawner_LWOTC extends XComGameState_AIReinforcementSpawner;
+class Override_XComGameState_AIReinforcementSpawner extends XComGameState_AIReinforcementSpawner;
 
 function EventListenerReturn OnReinforcementSpawnerCreated(Object EventData, Object EventSource, XComGameState GameState, Name Event, Object CallbackData)
 {

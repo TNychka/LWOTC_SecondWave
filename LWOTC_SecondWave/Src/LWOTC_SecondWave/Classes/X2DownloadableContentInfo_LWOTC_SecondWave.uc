@@ -5,7 +5,7 @@
 //  PURPOSE: Main mod file for LWOTC Second Wave Pack
 //--------------------------------------------------------------------------------------- 
 
-class X2DownloadableContentInfo_LWOTC_SecondWave extends LWOTCDownloadableContentInfo;
+class X2DownloadableContentInfo_LWOTC_SecondWave extends X2DownloadableContentInfo_LWOTC;
 
 var localized string SignalReserves_Description;
 var localized string SignalReserves_Tooltip;
@@ -14,6 +14,9 @@ var config int SignalReserves_ListPosition;
 var localized string RedFog_Description;
 var localized string RedFog_Tooltip;
 
+var localized string HiddenP_Description;
+var localized string HiddenP_Tooltip;
+
 /// <summary>
 /// This method is run if the player loads a saved game that was created prior to this DLC / Mod being installed, and allows the 
 /// DLC / Mod to perform custom processing in response. This will only be called once the first time a player loads a save that was
@@ -21,12 +24,12 @@ var localized string RedFog_Tooltip;
 /// </summary>
 static event OnLoadedSavedGame()
 {
-	local XComGameState_Manager_RedFog RedFogManager;
+	local RedFog_XComGameState_Manager RedFogManager;
 
 	if(`SecondWaveEnabled('RedFog'))
 	{
 		`REDSCREEN("Red Fog Applied to game");
-		RedFogManager = class'XComGameState_Manager_RedFog'.static.CreateModSettingsState_ExistingCampaign();
+		RedFogManager = RedFog_XComGameState_Manager(class'RedFog_XComGameState_Manager'.static.CreateModSettingsState_ExistingCampaign(class'RedFog_XComGameState_Manager'));
 		RedFogManager.RegisterManager();
 	}
 }
@@ -38,12 +41,12 @@ static event OnLoadedSavedGame()
 /// </summary>
 static event InstallNewCampaign(XComGameState StartState)
 {
-	local XComGameState_Manager_RedFog RedFogManager;
+	local RedFog_XComGameState_Manager RedFogManager;
 
 	if(`SecondWaveEnabled('RedFog'))
 	{
 		`REDSCREEN("Red Fog Applied to game");
-		RedFogManager = class'XComGameState_Manager_RedFog'.static.CreateModSettingsState_NewCampaign(StartState);
+		RedFogManager = RedFog_XComGameState_Manager(class'RedFog_XComGameState_Manager'.static.CreateModSettingsState_NewCampaign(class'RedFog_XComGameState_Manager', StartState));
 		RedFogManager.RegisterManager();
 	}
 }
@@ -53,7 +56,21 @@ static event InstallNewCampaign(XComGameState StartState)
 /// </summary>
 static event OnLoadedSavedGameToStrategy()
 {
+	if(`SecondWaveEnabled('HiddenPotential'))
+	{
+		class'HiddenP_XComGameState_Manager'.static.GetHiddenPotentialManager().RegisterManager();
+	}
+}
 
+/// <summary>
+/// Called when the player completes a mission while this DLC / Mod is installed.
+/// </summary>
+static event OnPostMission()
+{
+	if(`SecondWaveEnabled('HiddenPotential'))
+	{
+		class'HiddenP_XComGameState_Manager'.static.GetHiddenPotentialManager().RegisterManager();
+	}
 }
 
 /// <summary>
@@ -63,6 +80,7 @@ static event OnPostTemplatesCreated()
 {
 	AddRedFog();
 	AddSignalReserves();
+	AddHiddenPotential();
 }
 
 static function AddRedFog()
@@ -79,6 +97,14 @@ static function AddSignalReserves()
 	SignalReserves_Option.ID = 'SignalReserves';
 	SignalReserves_Option.DifficultyValue = 0;
 	default.SignalReserves_ListPosition = AddSecondWaveOption(SignalReserves_Option, default.SignalReserves_Description, default.SignalReserves_Tooltip);
+}
+
+static function AddHiddenPotential()
+{
+	local SecondWaveOption HiddenP_Option;
+	HiddenP_Option.ID = 'HiddenPotential';
+	HiddenP_Option.DifficultyValue = 0;
+	AddSecondWaveOption(HiddenP_Option, default.HiddenP_Description, default.HiddenP_Tooltip);
 }
 
 static function UpdateUIOnDifficultyChange(UIShellDifficulty UIShellDifficulty)
