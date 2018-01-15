@@ -230,3 +230,34 @@ simulated function float GetTemplateCharacterStat(XComGameState_Unit Unit, EChar
 	}
 	return 0.0f;
 }
+
+// Not sure if this is necessary?
+function PatchupMissingPCSStats()
+{
+	local XComGameStateHistory History;
+	local XComGameState NewGameState;
+	local XComGameState_Unit Unit, UpdatedUnit;
+	local float CurrentPCSStat, IdealPCSStat, MaxPCSStat;
+
+	History = `XCOMHISTORY;
+
+	NewGameState = class'XComGameStateContext_ChangeContainer'.static.CreateChangeState("Updating Missing PCS Stats");
+	foreach History.IterateByClassType(class'XComGameState_Unit', Unit)
+	{
+		if(Unit.IsSoldier() && Unit.GetRank() > 0)
+		{
+			CurrentPCSStat = Unit.GetCurrentStat(eStat_CombatSims);
+			IdealPCSStat = GetTemplateCharacterStat(Unit, eStat_CombatSims, MaxPCSStat, 1);
+			if(CurrentPCSStat < IdealPCSStat)
+			{
+				UpdatedUnit = XComGameState_Unit(NewGameState.CreateStateObject(class'XComGameState_Unit', Unit.ObjectID));
+				NewGameState.AddStateObject(UpdatedUnit);
+				UpdatedUnit.SetBaseMaxStat(eStat_CombatSims, IdealPCSStat);
+			}
+		}
+	}
+	if (NewGameState.GetNumGameStateObjects() > 0)
+		`GAMERULES.SubmitGameState(NewGameState);
+	else
+		History.CleanupPendingGameState(NewGameState);
+}

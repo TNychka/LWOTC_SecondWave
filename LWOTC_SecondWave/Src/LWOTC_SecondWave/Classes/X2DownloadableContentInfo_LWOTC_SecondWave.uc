@@ -107,9 +107,13 @@ static event InstallNewCampaign(XComGameState StartState)
 /// </summary>
 static event OnLoadedSavedGameToStrategy()
 {
+	local HiddenP_XComGameState_Manager HiddenPManager;
+
 	if(`SecondWaveEnabled('HiddenPotential'))
 	{
-		class'HiddenP_XComGameState_Manager'.static.GetHiddenPotentialManager().RegisterManager();
+		HiddenPManager = class'HiddenP_XComGameState_Manager'.static.GetHiddenPotentialManager();
+		HiddenPManager.PatchupMissingPCSStats();
+		HiddenPManager.RegisterManager();
 	}
 
 	class'WeaponR_XComGameState_Manager'.static.GetWeaponRouletteManager().UpdateWeaponTemplates_RandomizedDamage();
@@ -120,9 +124,13 @@ static event OnLoadedSavedGameToStrategy()
 /// </summary>
 static event OnPostMission()
 {
+	local HiddenP_XComGameState_Manager HiddenPManager;
+
 	if(`SecondWaveEnabled('HiddenPotential'))
 	{
-		class'HiddenP_XComGameState_Manager'.static.GetHiddenPotentialManager().RegisterManager();
+		HiddenPManager = class'HiddenP_XComGameState_Manager'.static.GetHiddenPotentialManager();
+		HiddenPManager.PatchupMissingPCSStats();
+		HiddenPManager.RegisterManager();
 	}
 }
 
