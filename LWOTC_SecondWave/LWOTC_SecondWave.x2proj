@@ -50,6 +50,12 @@
     <Content Include="Src\LWOTC_SecondWave\Classes\RedFog_XComGameState_Effect.uc">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="Src\LWOTC_SecondWave\Classes\UIScreenListener_All.uc">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Src\LWOTC_SecondWave\Classes\WeaponR_XComGameState_Manager.uc">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Src\LWOTC_SecondWave\Classes\X2DownloadableContentInfo_LWOTC.uc">
       <SubType>Content</SubType>
     </Content>

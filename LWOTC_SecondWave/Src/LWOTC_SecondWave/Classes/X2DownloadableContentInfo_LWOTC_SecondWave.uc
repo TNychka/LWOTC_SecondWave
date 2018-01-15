@@ -17,6 +17,35 @@ var localized string RedFog_Tooltip;
 var localized string HiddenP_Description;
 var localized string HiddenP_Tooltip;
 
+var localized string WeaponR_Description;
+var localized string WeaponR_Tooltip;
+
+struct DefaultBaseDamageEntry
+{
+	var name WeaponTemplateName;
+	var WeaponDamageValue BaseDamage;
+};
+var transient array<DefaultBaseDamageEntry> arrDefaultBaseDamage;
+
+static function X2DownloadableContentInfo_LWOTC_SecondWave GetDLCInfo()
+{
+	local array<X2DownloadableContentInfo> DLCInfos;
+	local X2DownloadableContentInfo DLCInfo;
+	local X2DownloadableContentInfo_LWOTC_SecondWave ModInfo;
+
+	DLCInfos = `ONLINEEVENTMGR.GetDLCInfos(false);
+	foreach DLCInfos(DLCInfo)
+	{
+		if (DLCInfo.DLCIdentifier == default.DLCIdentifier)
+		{
+			ModInfo = X2DownloadableContentInfo_LWOTC_SecondWave(DLCInfo);
+			if (ModInfo != none)
+				return ModInfo;
+		}
+	}
+	return none;
+}
+
 /// <summary>
 /// This method is run if the player loads a saved game that was created prior to this DLC / Mod being installed, and allows the 
 /// DLC / Mod to perform custom processing in response. This will only be called once the first time a player loads a save that was
@@ -26,6 +55,7 @@ static event OnLoadedSavedGame()
 {
 	local RedFog_XComGameState_Manager RedFogManager;
 	local HiddenP_XComGameState_Manager HiddenPManager;
+	local WeaponR_XComGameState_Manager WeaponRManager;
 
 	if(`SecondWaveEnabled('RedFog'))
 	{
@@ -39,6 +69,9 @@ static event OnLoadedSavedGame()
 		HiddenPManager = HiddenP_XComGameState_Manager(class'HiddenP_XComGameState_Manager'.static.CreateModSettingsState_ExistingCampaign(class'HiddenP_XComGameState_Manager'));
 		HiddenPManager.RegisterManager();
 	}
+
+	WeaponRManager = WeaponR_XComGameState_Manager(class'WeaponR_XComGameState_Manager'.static.CreateModSettingsState_ExistingCampaign(class'WeaponR_XComGameState_Manager'));
+	WeaponRManager.UpdateWeaponTemplates_RandomizedDamage();
 }
 
 /// <summary>
@@ -50,6 +83,7 @@ static event InstallNewCampaign(XComGameState StartState)
 {
 	local RedFog_XComGameState_Manager RedFogManager;
 	local HiddenP_XComGameState_Manager HiddenPManager;
+	local WeaponR_XComGameState_Manager WeaponRManager;
 
 	if(`SecondWaveEnabled('RedFog'))
 	{
@@ -63,6 +97,9 @@ static event InstallNewCampaign(XComGameState StartState)
 		HiddenPManager = HiddenP_XComGameState_Manager(class'HiddenP_XComGameState_Manager'.static.CreateModSettingsState_NewCampaign(class'HiddenP_XComGameState_Manager', StartState));
 		HiddenPManager.RegisterManager();
 	}
+
+	WeaponRManager = WeaponR_XComGameState_Manager(class'WeaponR_XComGameState_Manager'.static.CreateModSettingsState_NewCampaign(class'WeaponR_XComGameState_Manager', StartState));
+	WeaponRManager.UpdateWeaponTemplates_RandomizedDamage();
 }
 
 /// <summary>
@@ -74,6 +111,8 @@ static event OnLoadedSavedGameToStrategy()
 	{
 		class'HiddenP_XComGameState_Manager'.static.GetHiddenPotentialManager().RegisterManager();
 	}
+
+	class'WeaponR_XComGameState_Manager'.static.GetWeaponRouletteManager().UpdateWeaponTemplates_RandomizedDamage();
 }
 
 /// <summary>
@@ -95,6 +134,7 @@ static event OnPostTemplatesCreated()
 	AddRedFog();
 	AddSignalReserves();
 	AddHiddenPotential();
+	AddWeaponRoulette();
 }
 
 static function AddRedFog()
@@ -119,6 +159,14 @@ static function AddHiddenPotential()
 	HiddenP_Option.ID = 'HiddenPotential';
 	HiddenP_Option.DifficultyValue = 0;
 	AddSecondWaveOption(HiddenP_Option, default.HiddenP_Description, default.HiddenP_Tooltip);
+}
+
+static function AddWeaponRoulette()
+{
+	local SecondWaveOption WeaponR_Option;
+	WeaponR_Option.ID = 'WeaponRoulette';
+	WeaponR_Option.DifficultyValue = 0;
+	AddSecondWaveOption(WeaponR_Option, default.WeaponR_Description, default.WeaponR_Tooltip);
 }
 
 static function UpdateUIOnDifficultyChange(UIShellDifficulty UIShellDifficulty)

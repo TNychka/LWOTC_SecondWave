@@ -10,4 +10,7 @@ var config string RedFog_HealingType;
 // Hidden Potential
 var config float HiddenP_PercentGuaranteedStat;
 
+// Weapon Roulette
+var config float WeaponR_DamageRange;
+
 var config int VERSION;

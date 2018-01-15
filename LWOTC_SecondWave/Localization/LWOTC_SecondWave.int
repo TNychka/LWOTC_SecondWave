@@ -7,3 +7,6 @@ RedFog_Tooltip = "Bad stuff happens when you get hurt."
 
 HiddenP_Description = "Hidden Potential"
 HiddenP_Tooltip = "Hidden Potential"
+
+WeaponR_Description = "Weapon Roulette"
+WeaponR_Tooltip = "WeaponRoulette"

@@ -13,6 +13,9 @@ var config string RedFog_HealingType;
 // Hidden Potential
 var config float HiddenP_PercentGuaranteedStat;
 
+// Weapon Roulette
+var config float WeaponR_DamageRange;
+
 var config int CONFIG_VERSION;
 
 defaultproperties
@@ -35,7 +38,7 @@ event OnInit(UIScreen Screen)
 simulated function ClientModCallback(MCM_API_Instance ConfigAPI, int GameMode)
 {
     local MCM_API_SettingsPage Page;
-    local MCM_API_SettingsGroup RedFogGroup, HiddenPGroup;
+    local MCM_API_SettingsGroup RedFogGroup, HiddenPGroup, WeaponRGroup;
 	local array<string> penaltyOptions, healingOptions;
     
     LoadSavedSettings();
@@ -46,6 +49,7 @@ simulated function ClientModCallback(MCM_API_Instance ConfigAPI, int GameMode)
 		Page.SetPageTitle("LWOTC Settings");
 		Page.SetSaveHandler(SaveButtonClicked);
     
+		// Red Fog Settings
 		RedFogGroup = Page.AddGroup('redfog', "Red Fog Settings");
     
 		RedFogGroup.AddCheckbox('checkboxEnabledAliens', "Red Fog enabled for Advent", "Red Fog enabled for Advent", RedFog_EnabledAlien, CheckboxSaveHandlerEnabledAliens);
@@ -63,10 +67,14 @@ simulated function ClientModCallback(MCM_API_Instance ConfigAPI, int GameMode)
 		healingOptions.AddItem("Lowest HP");
 		RedFogGroup.AddSpinner('spinnerHealing', "Red Fog Healing Type", "Red Fog Healing Type", healingOptions, RedFog_HealingType, SpinnerSaveLoggerHealing);
 
+		// Hidden Potential Settings
 		HiddenPGroup = Page.AddGroup('hiddenp', "Hidden Potential Settings");
-
 		HiddenPGroup.AddSlider('SliderPercentGuaranteedStat', "Random Levelup Strength", "Random Levelup Strength", 0, 1, 0, HiddenP_PercentGuaranteedStat, SliderSaveLoggerPercentGuaranteedStat);
-    
+
+		// Weapon Roulette Settings
+		WeaponRGroup = Page.AddGroup('weaponr', "Weapon Roulette Settings");
+		WeaponRGroup.AddSlider('SliderDamageRange', "Damage Range", "Damage Range", 0, 100, 5, WeaponR_DamageRange, SliderSaveLoggerDamageRange);
+
 		Page.ShowSettings();
 	}
 }
@@ -77,6 +85,7 @@ simulated function ClientModCallback(MCM_API_Instance ConfigAPI, int GameMode)
 `MCM_API_BasicSpinnerSaveHandler(SpinnerSaveLoggerPenalty, RedFog_PenaltyType)
 `MCM_API_BasicSpinnerSaveHandler(SpinnerSaveLoggerHealing, RedFog_HealingType)
 `MCM_API_BasicSliderSaveHandler(SliderSaveLoggerPercentGuaranteedStat, HiddenP_PercentGuaranteedStat)
+`MCM_API_BasicSliderSaveHandler(SliderSaveLoggerDamageRange, WeaponR_DamageRange)
 
 simulated function LoadSavedSettings()
 {
@@ -86,6 +95,7 @@ simulated function LoadSavedSettings()
 	RedFog_PenaltyType = `MCM_CH_GetValue(class'ModMenu_Options_Defaults'.default.RedFog_PenaltyType,RedFog_PenaltyType);
 	RedFog_HealingType = `MCM_CH_GetValue(class'ModMenu_Options_Defaults'.default.RedFog_HealingType,RedFog_HealingType);
 	HiddenP_PercentGuaranteedStat = `MCM_CH_GetValue(class'ModMenu_Options_Defaults'.default.HiddenP_PercentGuaranteedStat,HiddenP_PercentGuaranteedStat);
+	WeaponR_DamageRange = `MCM_CH_GetValue(class'ModMenu_Options_Defaults'.default.WeaponR_DamageRange,WeaponR_DamageRange);
 }
 
 simulated function SaveButtonClicked(MCM_API_SettingsPage Page)
