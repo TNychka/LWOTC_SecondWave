@@ -14,6 +14,9 @@ WeaponR_Tooltip = "WeaponRoulette"
 NCE_Description = "Strict Screening"
 NCE_Tooltip = "Strict Screening"
 
+ACrit_Description = "Absolutely Critical: Flanking crits are more/less effective"
+ACrit_Tooltip = "Percentage change to flanking crit chance"
+
 [ModMenu_Options_Listener]
 Settings_Category = "LWOTC Settings"
 Page_Title = "Long War of the Chosen Settings"
@@ -37,3 +40,7 @@ HiddenP_PercentGuaranteedStat_Tooltip = "Random Levelup Strength"
 WeaponR_Title = "Weapon Roulette Settings"
 WeaponR_DamageRange_Setting = "Damage Range"
 WeaponR_DamageRange_Tooltip = "Damage Range"
+
+ACrit_Title = "Absolutely Critical Settings"
+ACrit_Modifier_Setting = "Percent modifier to flankin crit chance"
+ACrit_Modifier_Tooltip = "Percent modifier to flankin crit chance"

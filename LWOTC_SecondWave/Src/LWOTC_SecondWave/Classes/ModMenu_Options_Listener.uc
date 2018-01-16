@@ -26,6 +26,10 @@ var localized string WeaponR_Title;
 var localized string WeaponR_DamageRange_Setting;
 var localized string WeaponR_DamageRange_Tooltip;
 
+var localized string ACrit_Title;
+var localized string ACrit_Modifier_Setting;
+var localized string ACrit_Modifier_Tooltip;
+
 // Red Fog
 var config bool RedFog_EnabledAlien;
 var config bool RedFog_EnabledXcom;
@@ -38,6 +42,9 @@ var config float HiddenP_PercentGuaranteedStat;
 
 // Weapon Roulette
 var config float WeaponR_DamageRange;
+
+// Absolutely Critical
+var config float ACrit_Modifier;
 
 var config int CONFIG_VERSION;
 
@@ -61,7 +68,7 @@ event OnInit(UIScreen Screen)
 simulated function ClientModCallback(MCM_API_Instance ConfigAPI, int GameMode)
 {
     local MCM_API_SettingsPage Page;
-    local MCM_API_SettingsGroup RedFogGroup, HiddenPGroup, WeaponRGroup;
+    local MCM_API_SettingsGroup RedFogGroup, HiddenPGroup, WeaponRGroup, ACritGroup;
 	local array<string> penaltyOptions, healingOptions;
     
     LoadSavedSettings();
@@ -98,6 +105,10 @@ simulated function ClientModCallback(MCM_API_Instance ConfigAPI, int GameMode)
 		WeaponRGroup = Page.AddGroup('weaponr', WeaponR_Title);
 		WeaponRGroup.AddSlider('SliderDamageRange', WeaponR_DamageRange_Setting, WeaponR_DamageRange_Tooltip, 0, 100, 5, WeaponR_DamageRange, SliderSaveLoggerDamageRange);
 
+		// Absolutely Critical Settings
+		ACritGroup = Page.AddGroup('acrit', ACrit_Title);
+		ACritGroup.AddSlider('SliderModifier', ACrit_Modifier_Setting, ACrit_Modifier_Tooltip, 0, 3, 0.1, ACrit_Modifier, SliderSaveLoggerModifier);
+
 		Page.ShowSettings();
 	}
 }
@@ -109,6 +120,7 @@ simulated function ClientModCallback(MCM_API_Instance ConfigAPI, int GameMode)
 `MCM_API_BasicSpinnerSaveHandler(SpinnerSaveLoggerHealing, RedFog_HealingType)
 `MCM_API_BasicSliderSaveHandler(SliderSaveLoggerPercentGuaranteedStat, HiddenP_PercentGuaranteedStat)
 `MCM_API_BasicSliderSaveHandler(SliderSaveLoggerDamageRange, WeaponR_DamageRange)
+`MCM_API_BasicSliderSaveHandler(SliderSaveLoggerModifier, ACrit_Modifier)
 
 simulated function LoadSavedSettings()
 {
@@ -119,6 +131,7 @@ simulated function LoadSavedSettings()
 	RedFog_HealingType = `MCM_CH_GetValue(class'ModMenu_Options_Defaults'.default.RedFog_HealingType,RedFog_HealingType);
 	HiddenP_PercentGuaranteedStat = `MCM_CH_GetValue(class'ModMenu_Options_Defaults'.default.HiddenP_PercentGuaranteedStat,HiddenP_PercentGuaranteedStat);
 	WeaponR_DamageRange = `MCM_CH_GetValue(class'ModMenu_Options_Defaults'.default.WeaponR_DamageRange,WeaponR_DamageRange);
+	ACrit_Modifier = `MCM_CH_GetValue(class'ModMenu_Options_Defaults'.default.ACrit_Modifier,ACrit_Modifier);
 }
 
 simulated function SaveButtonClicked(MCM_API_SettingsPage Page)

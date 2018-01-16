@@ -38,6 +38,9 @@
       <SubType>Content</SubType>
     </Content>
     <Content Include="ReadMe.txt" />
+    <Content Include="Src\LWOTC_SecondWave\Classes\ACrit_XComGameState_Manager.uc">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="Src\LWOTC_SecondWave\Classes\HiddenP_XComGameState_Manager.uc">
       <SubType>Content</SubType>
     </Content>

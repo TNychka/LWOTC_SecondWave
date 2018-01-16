@@ -51,3 +51,52 @@ function StoreDefaultWeaponBaseDamageValues()
 		ModInfo.arrDefaultBaseDamage.AddItem(BaseDamageEntry);
 	}
 }
+
+function StoreDefaultFlankingCritValues()
+{
+	local X2CharacterTemplateManager CharTemplateMgr;
+	local array<X2CharacterTemplate> CharacterTemplates;
+	local X2CharacterTemplate Template;
+	local X2DownloadableContentInfo_LWOTC_SecondWave ModInfo;
+	local XComGameState_CampaignSettings Settings;
+	local int DifficultyIndex, OriginalDifficulty, OriginalLowestDifficulty;
+	local DefaultFlankingCritEntry Entry;
+
+	ModInfo = class'X2DownloadableContentInfo_LWOTC_SecondWave'.static.GetDLCInfo();
+	if (ModInfo == none)
+	{
+		`REDSCREEN("LWOTC Second Wave : Unable to find X2DLCInfo");
+		return;
+	}
+
+	CharTemplateMgr = class'X2CharacterTemplateManager'.static.GetCharacterTemplateManager();
+	if (CharTemplateMgr == none) {
+		`Redscreen("LWOTC Second Wave : failed to retrieve CharacterTemplateManager to modify Flank Crit");
+		return;
+	}
+
+	ModInfo.arrDefaultFlankingCrit.Length = 0;
+
+	Settings = XComGameState_CampaignSettings(`XCOMHISTORY.GetSingleGameStateObjectForClass(class'XComGameState_CampaignSettings'));
+
+	OriginalDifficulty = Settings.DifficultySetting;
+	OriginalLowestDifficulty = Settings.LowestDifficultySetting;
+
+	for( DifficultyIndex = `MIN_DIFFICULTY_INDEX; DifficultyIndex <= `MAX_DIFFICULTY_INDEX; ++DifficultyIndex )
+	{
+		Settings.SetDifficulty(DifficultyIndex, -1, -1, -1, false, true);
+
+		CharacterTemplates = class'ACrit_XComGameState_Manager'.static.GetAllCharacterTemplates(CharTemplateMgr);
+
+		foreach CharacterTemplates(Template)
+		{
+			Entry.CharacterTemplateName = name(Template.DataName $ DifficultyIndex);
+			Entry.CritValue = Template.CharacterBaseStats[eStat_FlankingCritChance];
+			ModInfo.arrDefaultFlankingCrit.AddItem(Entry);
+		}
+	}
+
+	//restore difficulty settings
+	Settings.SetDifficulty(OriginalLowestDifficulty, -1, -1, -1, false, true);
+	Settings.SetDifficulty(OriginalDifficulty, -1, -1, -1, false, false);	
+}

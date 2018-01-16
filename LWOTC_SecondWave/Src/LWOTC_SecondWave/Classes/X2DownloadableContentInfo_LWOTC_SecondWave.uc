@@ -24,12 +24,23 @@ var localized string NCE_Description;
 var localized string NCE_Tooltip;
 var config int NCE_ListPosition;
 
+var localized string ACrit_Description;
+var localized string ACrit_Tooltip;
+
 struct DefaultBaseDamageEntry
 {
 	var name WeaponTemplateName;
 	var WeaponDamageValue BaseDamage;
 };
 var transient array<DefaultBaseDamageEntry> arrDefaultBaseDamage;
+
+struct DefaultFlankingCritEntry
+{
+	var name CharacterTemplateName;
+	var int CritValue;
+};
+var transient array<DefaultFlankingCritEntry> arrDefaultFlankingCrit;
+
 
 static function X2DownloadableContentInfo_LWOTC_SecondWave GetDLCInfo()
 {
@@ -61,6 +72,7 @@ static event OnLoadedSavedGame()
 	local HiddenP_XComGameState_Manager HiddenPManager;
 	local WeaponR_XComGameState_Manager WeaponRManager;
 	local NCE_XComGameState_Manager NCEManager;
+	local ACrit_XComGameState_Manager ACritManager;
 
 	if(`SecondWaveEnabled('RedFog'))
 	{
@@ -81,6 +93,12 @@ static event OnLoadedSavedGame()
 		NCEManager.RegisterManager();
 		NCEManager.UpdateSoldiers_GameStart();
 	}
+	if(`SecondWaveEnabled('AbsolutelyCritical'))
+	{
+		`REDSCREEN("ACrit Applied to game");
+		ACritManager = ACrit_XComGameState_Manager(class'ACrit_XComGameState_Manager'.static.CreateModSettingsState_ExistingCampaign(class'ACrit_XComGameState_Manager'));
+		ACritManager.UpdateUnitsCritChance();
+	}
 
 	WeaponRManager = WeaponR_XComGameState_Manager(class'WeaponR_XComGameState_Manager'.static.CreateModSettingsState_ExistingCampaign(class'WeaponR_XComGameState_Manager'));
 	WeaponRManager.UpdateWeaponTemplates_RandomizedDamage();
@@ -99,6 +117,7 @@ static event InstallNewCampaign(XComGameState StartState)
 	local HiddenP_XComGameState_Manager HiddenPManager;
 	local WeaponR_XComGameState_Manager WeaponRManager;
 	local NCE_XComGameState_Manager NCEManager;
+	local ACrit_XComGameState_Manager ACritManager;
 
 	if(`SecondWaveEnabled('RedFog'))
 	{
@@ -119,6 +138,12 @@ static event InstallNewCampaign(XComGameState StartState)
 		NCEManager.RegisterManager();
 		NCEManager.UpdateSoldiers_GameStart(StartState);
 	}
+	if(`SecondWaveEnabled('AbsolutelyCritical'))
+	{
+		`REDSCREEN("ACrit Applied to game");
+		ACritManager = ACrit_XComGameState_Manager(class'ACrit_XComGameState_Manager'.static.CreateModSettingsState_NewCampaign(class'ACrit_XComGameState_Manager', StartState));
+		ACritManager.UpdateUnitsCritChance();
+	}
 
 	WeaponRManager = WeaponR_XComGameState_Manager(class'WeaponR_XComGameState_Manager'.static.CreateModSettingsState_NewCampaign(class'WeaponR_XComGameState_Manager', StartState));
 	WeaponRManager.UpdateWeaponTemplates_RandomizedDamage();
@@ -138,6 +163,10 @@ static event OnLoadedSavedGameToStrategy()
 		HiddenPManager = class'HiddenP_XComGameState_Manager'.static.GetHiddenPotentialManager();
 		HiddenPManager.PatchupMissingPCSStats();
 		HiddenPManager.RegisterManager();
+	}
+	if(`SecondWaveEnabled('AbsolutelyCritical'))
+	{
+		class'ACrit_XComGameState_Manager'.static.GetAbsolutelyCriticalManager().UpdateUnitsCritChance();
 	}
 
 	class'WeaponR_XComGameState_Manager'.static.GetWeaponRouletteManager().UpdateWeaponTemplates_RandomizedDamage();
@@ -170,6 +199,7 @@ static event OnPostTemplatesCreated()
 	AddHiddenPotential();
 	AddWeaponRoulette();
 	AddNotCreatedEqual();
+	AddAbsolutelyCritical();
 }
 
 static function AddRedFog()
@@ -210,6 +240,14 @@ static function AddNotCreatedEqual()
 	NCE_Option.ID = 'NotCreatedEqual';
 	NCE_Option.DifficultyValue = 0;
 	default.NCE_ListPosition = AddSecondWaveOption(NCE_Option, default.NCE_Description, default.NCE_Tooltip);
+}
+
+static function AddAbsolutelyCritical()
+{
+	local SecondWaveOption ACrit_Option;
+	ACrit_Option.ID = 'AbsolutelyCritical';
+	ACrit_Option.DifficultyValue = 0;
+	AddSecondWaveOption(ACrit_Option, default.ACrit_Description, default.ACrit_Tooltip);
 }
 
 static function UpdateUIOnDifficultyMenuOpen(UIShellDifficulty UIShellDifficulty)

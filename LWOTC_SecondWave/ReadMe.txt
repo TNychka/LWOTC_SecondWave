@@ -14,7 +14,7 @@ Damage Roulette			Ported
 Strict Screening/NCE	Ported
 Hidden Potential		Ported
 Red Fog					Ported
-Absolutely Critical		ToDo
+Absolutely Critical		Ported
 Liberation				ToDo
 War Weariness			ToDo
 Bronzeman Mode			ToDo
