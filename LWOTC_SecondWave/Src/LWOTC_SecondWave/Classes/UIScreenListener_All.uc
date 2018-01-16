@@ -1,6 +1,7 @@
 class UIScreenListener_All extends UIScreenListener dependson(X2DownloadableContentInfo_LWOTC_SecondWave);
 
 var bool CapturedDefaultBaseDamage;
+var bool CapturedDefaultFlankedCrit;
 
 defaultproperties
 {
@@ -15,6 +16,12 @@ event OnInit(UIScreen Screen)
 		// capture default spread settings for all weapons
 		StoreDefaultWeaponBaseDamageValues();
 		CapturedDefaultBaseDamage = true;
+	}
+
+	if(UIShell(Screen) != none && !CapturedDefaultFlankedCrit)  // this captures UIShell and UIFinalShell
+	{
+		StoreDefaultFlankingCritValues();
+		CapturedDefaultFlankedCrit = true;
 	}
 }
 
