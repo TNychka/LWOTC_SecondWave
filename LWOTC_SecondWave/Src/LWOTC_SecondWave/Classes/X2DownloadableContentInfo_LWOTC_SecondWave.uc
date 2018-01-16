@@ -27,18 +27,8 @@ var config int NCE_ListPosition;
 var localized string ACrit_Description;
 var localized string ACrit_Tooltip;
 
-struct DefaultBaseDamageEntry
-{
-	var name WeaponTemplateName;
-	var WeaponDamageValue BaseDamage;
-};
-var transient array<DefaultBaseDamageEntry> arrDefaultBaseDamage;
 
-struct DefaultFlankingCritEntry
-{
-	var name CharacterTemplateName;
-	var int CritValue;
-};
+var transient array<DefaultBaseDamageEntry> arrDefaultBaseDamage;
 var transient array<DefaultFlankingCritEntry> arrDefaultFlankingCrit;
 
 

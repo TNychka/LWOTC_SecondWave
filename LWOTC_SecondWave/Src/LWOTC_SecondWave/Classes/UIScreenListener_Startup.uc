@@ -1,4 +1,16 @@
-class UIScreenListener_Startup extends UIScreenListener dependson(X2DownloadableContentInfo_LWOTC_SecondWave);
+class UIScreenListener_Startup extends UIScreenListener;
+
+struct DefaultBaseDamageEntry
+{
+	var name WeaponTemplateName;
+	var WeaponDamageValue BaseDamage;
+};
+
+struct DefaultFlankingCritEntry
+{
+	var name CharacterTemplateName;
+	var int CritValue;
+};
 
 var bool CapturedDefaultBaseDamage;
 var bool CapturedDefaultFlankedCrit;
