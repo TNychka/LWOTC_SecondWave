@@ -1,4 +1,4 @@
-class UIScreenListener_All extends UIScreenListener dependson(X2DownloadableContentInfo_LWOTC_SecondWave);
+class UIScreenListener_Startup extends UIScreenListener dependson(X2DownloadableContentInfo_LWOTC_SecondWave);
 
 var bool CapturedDefaultBaseDamage;
 var bool CapturedDefaultFlankedCrit;

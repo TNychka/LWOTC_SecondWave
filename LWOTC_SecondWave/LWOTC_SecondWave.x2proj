@@ -65,7 +65,7 @@
     <Content Include="Src\LWOTC_SecondWave\Classes\RedFog_XComGameState_Effect.uc">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Src\LWOTC_SecondWave\Classes\UIScreenListener_All.uc">
+    <Content Include="Src\LWOTC_SecondWave\Classes\UIScreenListener_Startup.uc">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Src\LWOTC_SecondWave\Classes\WeaponR_XComGameState_Manager.uc">
