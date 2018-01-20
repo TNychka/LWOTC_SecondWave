@@ -5,7 +5,7 @@
 //  PURPOSE: Main mod file for LWOTC Second Wave Pack
 //--------------------------------------------------------------------------------------- 
 
-class X2DownloadableContentInfo_LWOTC_SecondWave extends X2DownloadableContentInfo_LWOTC;
+class X2DownloadableContentInfo_LWOTC_SecondWave extends X2DownloadableContentInfo;
 
 var localized string SignalReserves_Description;
 var localized string SignalReserves_Tooltip;
@@ -240,14 +240,8 @@ static function AddAbsolutelyCritical()
 	AddSecondWaveOption(ACrit_Option, default.ACrit_Description, default.ACrit_Tooltip);
 }
 
-static function UpdateUIOnDifficultyMenuOpen(UIShellDifficulty UIShellDifficulty)
-{
-	UIMechaListItem(UIShellDifficulty.m_SecondWaveList.GetItem(default.NCE_ListPosition)).Checkbox.SetChecked(true);
-}
-
 static function UpdateUIOnDifficultyChange(UIShellDifficulty UIShellDifficulty)
 {
-	UIMechaListItem(UIShellDifficulty.m_SecondWaveList.GetItem(default.NCE_ListPosition)).Checkbox.SetChecked(true);
 	if (UIShellDifficulty.m_iSelectedDifficulty > 0)
 	{
 		UIMechaListItem(UIShellDifficulty.m_SecondWaveList.GetItem(default.SignalReserves_ListPosition)).Checkbox.SetChecked(false);
@@ -276,4 +270,23 @@ static function UpdateRewardSoldierTemplates()
 	Template = X2RewardTemplate(TemplateMgr.FindStrategyElementTemplate('Reward_SoldierCaptured'));
 	Template.GenerateRewardFn = class'NCE_X2StrategyElement_RandomizedSoldierRewards'.static.GenerateCapturedSoldierReward;
 	TemplateMgr.AddStrategyElementTemplate(Template, true);
+}
+
+static function int AddSecondWaveOption(SecondWaveOption Option, string Description, string ToolTip)
+{
+	local array<Object>			UIShellDifficultyArray;
+	local Object				ArrayObject;
+	local UIShellDifficulty		UIShellDifficulty;
+	local int					OptionIndex;
+
+	UIShellDifficultyArray = class'XComEngine'.static.GetClassDefaultObjects(class'UIShellDifficulty');
+	foreach UIShellDifficultyArray(ArrayObject)
+	{
+		UIShellDifficulty = UIShellDifficulty(ArrayObject);
+		OptionIndex = UIShellDifficulty.SecondWaveOptions.Length;
+		UIShellDifficulty.SecondWaveOptions.AddItem(Option);
+		UIShellDifficulty.SecondWaveDescriptions.AddItem(Description);
+		UIShellDifficulty.SecondWaveToolTips.AddItem(ToolTip);
+	}
+	return OptionIndex;
 }

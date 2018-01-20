@@ -50,9 +50,6 @@
     <Content Include="Src\LWOTC_SecondWave\Classes\NCE_XComGameState_Manager.uc">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Src\LWOTC_SecondWave\Classes\Override_UIShellDifficulty.uc">
-      <SubType>Content</SubType>
-    </Content>
     <Content Include="Src\LWOTC_SecondWave\Classes\Override_XComGameState_AIReinforcementSpawner.uc">
       <SubType>Content</SubType>
     </Content>
@@ -69,9 +66,6 @@
       <SubType>Content</SubType>
     </Content>
     <Content Include="Src\LWOTC_SecondWave\Classes\WeaponR_XComGameState_Manager.uc">
-      <SubType>Content</SubType>
-    </Content>
-    <Content Include="Src\LWOTC_SecondWave\Classes\X2DownloadableContentInfo_LWOTC.uc">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Src\LWOTC_SecondWave\Classes\ModMenu_Options_Listener.uc">
